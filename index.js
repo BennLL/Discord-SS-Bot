@@ -25,11 +25,11 @@ client.on("messageCreate", async (msg) => {
     var site = msg.content.replace("-preview ", "");
 
     if(site.substring(0,4) !== "http"){
-        msg.channel.send("website does not exist :(")
+        msg.reply("website does not exist :( \nlink must start with https:// or http://")
         return;
     }
 
-    msg.reply("going to website");
+    msg.reply("going to website...");
 
     goingSite(site);
 

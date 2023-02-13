@@ -1,5 +1,6 @@
 const puppeteer = require("puppeteer");
 const { Client, IntentsBitField, Message } = require("discord.js");
+require('dotenv').config();
 
 const client = new Client({
   intents: [
@@ -25,8 +26,6 @@ client.on("messageCreate", (msg) => {
   }
 });
 
-client.login(
-  "MTA3MzA3NjIyNjg5NTM4MDUwMA.G_gfeW.KrWASUjjCvlfpm3Z82Vo-AkohP-w3Eek9GgVVQ"
-);
+client.login(process.env.TOKEN);
 
 // node index.js to start bot

@@ -15,7 +15,7 @@ client.on("ready", (c) => {
   console.log(`${c.user.username} is online.`);
 });
 
-client.on("messageCreate", (msg) => {
+client.on("messageCreate", async (msg) => {
   if (msg.author.bot) {
     return;
   }
@@ -23,6 +23,12 @@ client.on("messageCreate", (msg) => {
   // "-preview "
   if (msg.content.startsWith("-preview ")) {
     var site = msg.content.replace("-preview ", "");
+
+    if(site.substring(0,4) !== "http"){
+        msg.channel.send("website does not exist :(")
+        return;
+    }
+
     msg.reply("going to website");
 
     goingSite(site);
@@ -34,12 +40,12 @@ client.on("messageCreate", (msg) => {
         waitUntil: "networkidle2",
       });
       await page.setViewport({ width: 1920, height: 1080 });
-      await page.screenshot({ path: "ss.png", fullPage: true });
+      await page.screenshot({ path: "ss.png"});
+      //await page.screenshot({ path: "ss.png", fullPage: true });
 
       await browser.close();
       msg.channel.send({ files: [{ attachment: 'ss.png' }] });
 
-      return;
     }
   }
 });

@@ -24,11 +24,6 @@ client.on("messageCreate", async (msg) => {
   if (msg.content.startsWith("-preview ")) {
     var site = msg.content.replace("-preview ", "");
 
-    if(site.substring(0,4) !== "http"){
-        msg.reply("website does not exist :( \nlink must start with https:// or http://")
-        return;
-    }
-
     msg.reply("going to website...");
 
     goingSite(site);
@@ -36,20 +31,42 @@ client.on("messageCreate", async (msg) => {
     async function goingSite(link) {
       const browser = await puppeteer.launch({ headless: false });
       const page = await browser.newPage();
-      await page.goto(link, {
-        waitUntil: "networkidle2",
+
+      page.on("error", (err) => {
+        console.error(err);
+        const errorMsg = "An error occurred.";
+        msg.channel.send(errorMsg);
       });
-      await page.setViewport({ width: 1920, height: 1080 });
-      await page.screenshot({ path: "ss.png"});
-      //await page.screenshot({ path: "ss.png", fullPage: true });
 
-      await browser.close();
-      msg.channel.send({ files: [{ attachment: 'ss.png' }] });
+      page.on("pageerror", (err) => {
+        console.error(err);
+        const errorMsg = "An error occurred.";
+        msg.channel.send(errorMsg);
+      });
 
+      try {
+        await page.goto(link, {
+          waitUntil: "networkidle2",
+        });
+        await page.evaluate(
+          () => new Promise((resolve) => setTimeout(resolve, 3000))
+        );
+        await page.setViewport({ width: 1920, height: 1080 });
+        await page.screenshot({ path: "ss.png" });
+        // await page.screenshot({ path: "ss.png", fullPage: true });
+        // ^^ for large screenshots
+
+        await browser.close();
+        msg.channel.send({ files: [{ attachment: "ss.png" }] });
+      } catch (err) {
+        const errorMsg = "An error occurred.";
+        console.error(err);
+        msg.channel.send(errorMsg);
+        await browser.close();
+      }
     }
   }
 });
-
 
 client.login(process.env.TOKEN);
 

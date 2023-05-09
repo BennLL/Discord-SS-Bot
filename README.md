@@ -19,8 +19,9 @@ Made with
 
 
 ![Example Screenshots](https://img.shields.io/badge/-Example%20Screenshots-darkgrey?style=flat)
+  
+![ezgif-3-d0a7a29562](https://user-images.githubusercontent.com/110274203/236996312-4cf1cc1e-0a42-4e67-b2b6-7d621b814221.gif)
 
-<img src="https://i.imgur.com/URV1QY8.png" alt="Image" width="688" height="437.5">
 </div>
 
 
